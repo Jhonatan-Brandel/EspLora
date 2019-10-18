@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
     <html>
         <head> 
         <title>EspLora </title>
@@ -93,11 +93,19 @@ input[type=submit]:hover {
   margin-top: 6px;
 }
 
-.col-75 {
+.col-50 {
   float: left;
-  width: 75%;
+  width: 25%;
   margin-top: 6px;
 }
+
+.col-75 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+
 
 /* Clear floats after the columns */
 .row:after {
@@ -108,21 +116,36 @@ input[type=submit]:hover {
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 900px) {
-  .col-25, .col-75, input[type=submit] {
+  .col-25,.col-50 .col-75, input[type=submit] {
     width: 100%;
     margin-top: 0;
   }
+
+
 }
 
+button{
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+}
+
+@media screen and (max-width: 900px) {
+  .col-25,.col-50, .col-75, button {
+    width: 100%;
+    margin-top: 0;
+  }}
+
 </style>
-        </head>
+</head>
       <body>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        </head>
-      <body>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-       <div class="cabecalho">
+<div class="cabecalho">
              
          
              <h1 class="logo">( ( ( EspLora ) ) )</h1>
@@ -131,13 +154,14 @@ input[type=submit]:hover {
         <header>
 
           <div class="menubar">
+
             <strong><nav>
             <ul>
             <li><a href="/status">Status</a></li>
-            <li><a href="/config">Options</a></li>
+            <li><a href="/options">Options</a></li>
             <li><a href="/tb">Testbench</a></li>
             <li><a href="/connect">Connect</a></li>
-            <li><a href="/about">About</a></li>
+            
             </ul>
             </nav></strong>
           </div>
@@ -146,7 +170,58 @@ input[type=submit]:hover {
     <div class="conteudo">
   
 
-   [CONTEUDO]
+<div class="container">
+
+
+<div class="col-25">
+<div class="row">
+  <button onclick="window.location.href='/stconfig';">Station mode</button> 
+</p>
+</div>
+</div>
+<div class="row">
+<div class="col-25">
+<div class="row">
+  <button onclick="window.location.href='/GPIOconfig';">GPIO</button> 
+</p>
+</div>
+</div>
+
+<div class="col-25">
+<div class="row">
+  <button onclick="window.location.href='/LORAconfig';">LoRa</button>
+</p> 
+</div>
+</div>
+
+<div class="col-25">
+<div class="row">
+  <button onclick="window.location.href='/servconfig';">Enable services</button> 
+</p>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-25">
+<div class="row">
+  <button onclick="window.location.href='/softapconfig';">SoftAp</button> 
+</p>
+</div>
+</div>
+
+<div class="col-25">
+<div class="row">
+  <button onclick="window.location.href='/timeconfig';">Time</button> 
+</p>
+</div>
+</div>
+</div>
+&nbsp;
+</div>
+
+
+
 
 
 
