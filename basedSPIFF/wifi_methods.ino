@@ -1,4 +1,7 @@
 
+
+
+
 boolean connect2ap(String ssid,String password)
 {
  int ssid_len = ssid.length() + 1;
@@ -38,6 +41,10 @@ if (WiFi.status() == WL_CONNECTED)
 return false;
 
 }
+
+
+
+
 
 void str2ip(String strIP,int &iparray0,int &iparray1,int &iparray2,int &iparray3)
 {

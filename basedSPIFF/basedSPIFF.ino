@@ -1,5 +1,4 @@
 /* Create a WiFi access point and provide a web server on it. */
-#include <EEPROM.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
@@ -25,7 +24,6 @@ ESP8266WebServer server(80);
 void setup() {
   SPIFFS.begin();
 	delay(1000);
-  EEPROM.begin(512);//Starting and setting size of the EEPROM
 	Serial.begin(115200);
 	Serial.println();
 	Serial.print("Configuring access point...");
@@ -41,12 +39,14 @@ void setup() {
   server.on("/options",handle_options);
   server.on("/stconfig",handle_st_config);
   server.on("/actionstconfig", action_st_config);
-  
+  server.on("/connect",handle_connect);
+  server.on("/actionconnect",handle_action_connect);
   server.on("/goback",goback);
-  
+  server.on("/conf.txt",handle_conf_file);
 	server.begin();
 	Serial.println("HTTP server started");
   //connect2ap("q6","12345678");//read_EEPROM_str(SSID_MEM,SSID_LEN) , read_EEPROM_str(PWD_MEM,PWD_LEN));//Set station with preset values read from EEPROM
+
 
 }
 

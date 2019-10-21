@@ -25,40 +25,47 @@ void handle_st_config() {
 }
 
 
-void action_st_config() {
- 
- String ssid = server.arg("ssid"); 
- String password = server.arg("password"); 
- String configMode = server.arg("manual"); 
- String ip = server.arg("ip"); 
- String gateway = server.arg("gateway"); 
- String subnet = server.arg("subnet"); 
- Serial.print("SSID:");
- Serial.println(ssid);
- Serial.print("Senha:");
- Serial.println(password);
- Serial.print("Modo:");
- Serial.println(configMode);
- 
- Serial.print("ip:");
- int intip [4]={0,0,0,0};
- str2ip(ip,intip[0],intip[1],intip[2],intip[3]);
- Serial.print(intip[0]);
- Serial.print(intip[1]);
- Serial.print(intip[2]);
- Serial.print(intip[3]);
- 
-  Serial.print("gateway:");
- Serial.println(gateway);
-  Serial.print("subnet:");
- Serial.println(subnet);
- 
- goback();
- //connect2ap(ssid,password);
- write_EEPROM_str(ssid,100);
- write_EEPROM_str(password,PWD_MEM);
 
+
+void action_st_config() {
+
+ goback();
+
+ File config_file=SPIFFS.open("/conf.txt","w");
+ config_file.print("#SSID,"+server.arg("ssid")+"\n");
+ config_file.print("#PWD,"+server.arg("password")+"\n");
+ config_file.print("#MODE,"+server.arg("manual")+"\n");
+ config_file.print("#GTW,"+server.arg("gateway")+"\n");
+ config_file.print("#SUBNET,"+server.arg("subnet")+"\n");
+ config_file.print("#IP,"+server.arg("ip")+"\n");
+ config_file.close();
 }
+
+void handle_conf_file() {
+  File file = SPIFFS.open("/conf.txt","r");
+  server.streamFile(file, "text/html");
+  file.close();
+}
+
+
+
+void handle_connect() {
+  File file = SPIFFS.open("/connect.html","r");
+  server.streamFile(file, "text/html");
+  file.close();
+}
+
+void handle_action_connect() {
+ goback(); 
+ File file = SPIFFS.open("/conf.txt","r");
+ String txt=file2str(file);
+ Serial.println(txt);
+ file.close();
+ connect2ap(get_pseudo_dict_data(txt,"#SSID"),get_pseudo_dict_data(txt,"#PWD"));
+ 
+}
+
+
 
 
 

@@ -1,25 +1,22 @@
 
-//write to memory
-void write_EEPROM_str(String x,int pos){
-  for(int n=pos;n<x.length()+pos;n++){
-     EEPROM.write(n,x[n-pos]);
+String get_pseudo_dict_data(String str, String n)
+{ int idx_from=str.indexOf(n+",");
+  int idx_to=str.indexOf("\n",idx_from);
+  if (idx_from==-1)
+    return "";
+  if( idx_to==-1)
+  {
+   idx_to=str.length();
   }
-  EEPROM.write(x.length()+pos,'\n');//Adciona uma quebra de linha no final da String
-  EEPROM.commit();
+  return str.substring(idx_from+n.length()+1, idx_to);
 }
 
-
-//write to memory
-String read_EEPROM_str(int pos,int len){
-  String readstr;
-  char readc;
-  for(int n=pos;n<len+pos;n++){
-     readc=char(EEPROM.read(n));
-     if(readc!='\n')//concatena o caractere se nao e fim de linha
-     readstr+=String(readc);
-     else
-     break;
+String file2str(File txtfile)
+{ String output="";
+  while (txtfile.available()) {
+ 
+    output+=txtfile.read();
   }
-  return readstr;
+  return output;
 }
 
