@@ -94,7 +94,7 @@ input[type=submit]:hover {
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
-  padding: 20px;
+  padding: 50px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
 }
@@ -113,7 +113,7 @@ input[type=submit]:hover {
 
 /* Clear floats after the columns */
 .row:after {
-  content: "";
+  content: "
   display: table;
   clear: both;
 }
@@ -140,7 +140,7 @@ object:focus {
 
 
 </head>
-      <body>
+      <body onload='process()'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
        <div class="cabecalho">
@@ -167,21 +167,60 @@ object:focus {
         </header>
 
     <div class="conteudo">
-  Connect to a WLAN with SSID:<BR>
+	  Connect to a WLAN with SSID:
+	 
+        <br>
+	  <div id='SSID'>"+ssid+"</div>
+	   
+	<br>
+	  <div class="container">
 
-	
-  <div class="container">
+		*SSID and password need be setted previously.
+		<div class="row">
+			<br>
+			<div class="col-25">
+				<button onclick="window.location.href='/actionconnect';"> Connect </button> </p>
+			</div>
 
-	*SSID and password need be setted previously.
-	<div class="row">
-		<br>
-		<div class="col-25">
-			<button onclick="window.location.href='/actionconnect';"> Connect </button> </p>
 		</div>
-	</div>
-</div>
+
+          </p>
+	  </div>
 
 
     </div>
+
+
+
       </body>
+
     </html>
+
+    <SCRIPT>
+    var xmlHttp=createXmlHttpObject();
+    function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+    xmlHttp=new XMLHttpRequest();
+    }else{
+    xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xmlHttp;
+    }
+    
+    function response(){
+    xmlResponse=xmlHttp.responseXML;
+    xmldoc = xmlResponse.getElementsByTagName('ssid');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('SSID').innerHTML=message;
+    }
+
+    function process(){
+    xmlHttp.open('PUT','connectxml',true);
+    xmlHttp.onreadystatechange=response;
+    xmlHttp.send(null);
+    setTimeout('process()',200);
+    }
+    
+    </SCRIPT>
+    
+   

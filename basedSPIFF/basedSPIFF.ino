@@ -21,6 +21,7 @@ ESP8266WebServer server(80);
  * connected to this access point to see it.
  */
 
+
 void setup() {
   SPIFFS.begin();
 	delay(1000);
@@ -43,6 +44,7 @@ void setup() {
   server.on("/actionconnect",handle_action_connect);
   server.on("/goback",goback);
   server.on("/conf.txt",handle_conf_file);
+  server.on("/connectxml", XMLcontent);
 	server.begin();
 	Serial.println("HTTP server started");
   //connect2ap("q6","12345678");//read_EEPROM_str(SSID_MEM,SSID_LEN) , read_EEPROM_str(PWD_MEM,PWD_LEN));//Set station with preset values read from EEPROM

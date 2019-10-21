@@ -47,8 +47,6 @@ void handle_conf_file() {
   file.close();
 }
 
-
-
 void handle_connect() {
   File file = SPIFFS.open("/connect.html","r");
   server.streamFile(file, "text/html");
@@ -66,7 +64,28 @@ void handle_action_connect() {
 }
 
 
+void XMLcontent(){
+  File file = SPIFFS.open("/conf.txt","r");
+  String txt=String(file2str(file));
+  file.close();
+  String ssid=get_pseudo_dict_data(txt,"#SSID");
+  Serial.println(txt);
+  Serial.println("xmlconteudo");
 
+  String ip= WiFi.localIP().toString();
+  String XML ="<?xml version='1.0'?>";
+  XML+="<connect>";
+  XML+="<ssid>";
+  XML+=ssid;
+  XML+="</ssid>";
+
+  XML+="<ip>";
+  XML+=ip;
+  XML+="</ip>";
+ XML+="</connect>";
+  server.send(200,"text/xml",XML);
+  
+  }
 
 
 /*

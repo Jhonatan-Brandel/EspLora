@@ -15,7 +15,7 @@ String file2str(File txtfile)
 { String output="";
   while (txtfile.available()) {
  
-    output+=txtfile.read();
+    output+=char(txtfile.read());
   }
   return output;
 }
