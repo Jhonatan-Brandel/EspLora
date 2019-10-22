@@ -38,12 +38,15 @@ void setup() {
   server.on("/actionstconfig", action_st_config);
   server.on("/connect",handle_connect);
   server.on("/actionconnect",handle_action_connect);
+  server.on("/actionautoconnect",handle_action_autocon);
+  server.on("/autoconxml", autoconXMLcontent);  
   server.on("/goback",goback);
   server.on("/conf.txt",handle_conf_file);
   server.on("/connectxml", XMLcontent);
 	server.begin();
 	Serial.println("HTTP server started");
-  //connect2ap("q6","12345678");//read_EEPROM_str(SSID_MEM,SSID_LEN) , read_EEPROM_str(PWD_MEM,PWD_LEN));//Set station with preset values read from EEPROM
+  
+  autoconnect();
 }
 
 void loop() {

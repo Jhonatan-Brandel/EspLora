@@ -80,7 +80,7 @@ input[type=submit] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  float: right;
+  float: left;
 }
 
 input[type=submit]:hover {
@@ -136,11 +136,8 @@ object:focus {
 
 </style>
 
-
-
-
 </head>
-      <body onload='process()'>
+      <body onload='start()'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
        <div class="cabecalho">
@@ -170,7 +167,7 @@ object:focus {
 	  Connect to a WLAN with SSID:
 	 
         <br>
-	  <div id='SSID'>"+ssid+"</div>
+	  <div id='SSID'>&nbsp;</div>
 	   
 	<br>
 	  <div class="container">
@@ -186,6 +183,34 @@ object:focus {
 
           </p>
 	  </div>
+	  <br>
+<!-- Bloco a seguir é formulário para verificar modo de conexão automática do sistema.//-->
+Auto-Connection Settings:<br><br>
+	  <div class="container">
+
+		<form action="/actionautoconnect"> 
+			If enabled, Esp8266 will try to connect on WLAN, setted up before, on boot.
+			<div class="row">
+				<br>
+				<div class="col-75">
+					<div id="demo"></div>
+                                        <input type="hidden" id="checkbox_state" name="checkbox_auto_connection" value="none">
+                                                                      
+				</div>
+
+			</div>
+			<br>
+			<div class="row">
+				<br>
+				<div class="col-25">
+					<input type="submit" value="Submit"> </p>
+				</div>
+			</div>
+		
+
+                </form> 
+          </p>
+	  </div>
 
 
     </div>
@@ -198,6 +223,10 @@ object:focus {
 
     <SCRIPT>
     var xmlHttp=createXmlHttpObject();
+    var xmlHttp2=createXmlHttpObject();
+    var loaded=false;
+ 
+
     function createXmlHttpObject(){
     if(window.XMLHttpRequest){
     xmlHttp=new XMLHttpRequest();
@@ -206,12 +235,28 @@ object:focus {
     }
     return xmlHttp;
     }
-    
+
+    function start(){
+    process();
+    process_autocon();
+    change_checkbox();}
+
     function response(){
     xmlResponse=xmlHttp.responseXML;
     xmldoc = xmlResponse.getElementsByTagName('ssid');
     message = xmldoc[0].firstChild.nodeValue;
     document.getElementById('SSID').innerHTML=message;
+    }
+
+    function response_autocon(){
+    xmlResponse=xmlHttp2.responseXML;
+    xmldoc = xmlResponse.getElementsByTagName('autocon');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('checkbox_state').value=message;
+    if (loaded==false){
+    change_checkbox();
+    loaded=true;
+    }
     }
 
     function process(){
@@ -221,6 +266,20 @@ object:focus {
     setTimeout('process()',200);
     }
     
+    function process_autocon(){
+    xmlHttp2.open('PUT','autoconxml',true);
+    xmlHttp2.onreadystatechange=response_autocon;
+    xmlHttp2.send(null);
+    setTimeout('process_autocon()',240);
+    }
+    
+    function change_checkbox(){	
+
+	if(document.getElementById("checkbox_state").value=="check"){
+	document.getElementById("demo").innerHTML = ' <input type="checkbox" name="autocon" value="check" checked > Connect automatically when system starts.';}
+	else{
+	document.getElementById("demo").innerHTML = ' <input type="checkbox" name="autocon" value="check" > Connect automatically when system starts.';}
+	 }
     </SCRIPT>
     
    

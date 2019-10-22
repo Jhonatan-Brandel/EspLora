@@ -1,7 +1,4 @@
 
-
-
-
 boolean connect2ap(String ssid,String password)
 {
  int ssid_len = ssid.length() + 1;
@@ -21,7 +18,6 @@ boolean connect2ap(String ssid,String password)
 {
 
 delay(500);
-
 Serial.print(".");
 attempts++;
 
@@ -41,10 +37,6 @@ if (WiFi.status() == WL_CONNECTED)
 return false;
 
 }
-
-
-
-
 
 void str2ip(String strIP,int &iparray0,int &iparray1,int &iparray2,int &iparray3)
 {
@@ -67,4 +59,20 @@ for ( int i=0; i<strIP.length(); i++ )
  iparray3=Parts[3];
 }
 
+
+void autoconnect()
+{
+  File file = SPIFFS.open("/autocon.txt","r");
+  String txt=String(file2str(file));
+  file.close();
+  String autocon=get_pseudo_dict_data(txt,"#AUTOCON");
+  if (autocon.equals("check"))//Se esta marcado que e para conectar durante o boot
+  {
+    File file2 = SPIFFS.open("/conf.txt","r");
+    String txt=file2str(file2);
+   Serial.println(txt);
+   file2.close();
+   connect2ap(get_pseudo_dict_data(txt,"#SSID"),get_pseudo_dict_data(txt,"#PWD"));
+  }
+}
 

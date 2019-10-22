@@ -59,6 +59,15 @@ void handle_action_connect() {
  connect2ap(get_pseudo_dict_data(txt,"#SSID"),get_pseudo_dict_data(txt,"#PWD"));
 }
 
+//Funçao para setar modo de auto-conectar no boot do sistema
+//chamada quando e enviado o formulario
+void handle_action_autocon() {
+ goback();
+ File file = SPIFFS.open("/autocon.txt","w");
+ file.print("#AUTOCON,"+server.arg("autocon")+"\n");
+ file.close();
+}
+
 void XMLcontent()
  {
   File file = SPIFFS.open("/conf.txt","r");
@@ -79,6 +88,23 @@ void XMLcontent()
   XML+=ip;
   XML+="</ip>";
   XML+="</connect>";
+  server.send(200,"text/xml",XML);
+  }
+
+void autoconXMLcontent()
+ {
+  File file = SPIFFS.open("/autocon.txt","r");
+  String txt=String(file2str(file));
+  file.close();
+  String autocon=get_pseudo_dict_data(txt,"#AUTOCON");
+
+  String XML ="<?xml version='1.0'?>";
+  XML+="<autoconnect>";
+  XML+="<autocon>";
+  XML+=autocon;
+  XML+="</autocon>";
+  XML+="</autoconnect>";
+  
   server.send(200,"text/xml",XML);
   }
 
