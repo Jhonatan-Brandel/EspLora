@@ -14,8 +14,7 @@ String get_pseudo_dict_data(String str, String n)
 String file2str(File txtfile)
 { String output="";
   while (txtfile.available()) {
- 
-    output+=char(txtfile.read());
+     output+=char(txtfile.read());
   }
   return output;
 }
