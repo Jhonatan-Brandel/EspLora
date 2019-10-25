@@ -1,0 +1,291 @@
+  <!DOCTYPE html>
+    <html>
+        <head> 
+        <title>EspLora </title>
+<style>
+.menubar ul {
+  font-family: Arial, Helvetica, sans-serif;
+  list-style-type: none;
+  
+
+  overflow: hidden;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  padding: 10px;
+
+}
+
+.menubar li {
+  float: left;
+}
+
+.menubar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+.menubar li a:hover {
+  background-color: #4CAF50;
+}
+
+.menubar p{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cabecalho h1{
+
+  font-family: Arial, Helvetica, sans-serif;
+  color:#4CAF50
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h2{
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.selectgpio {
+width:120px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 900px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+
+#gpiotable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#gpiotable td, #gpiotable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#gpiotable tr:nth-child(even){background-color: #d5d5d5;}
+
+
+
+#gpiotable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+</style>
+</head>
+      <body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+       <div class="cabecalho">
+             
+         
+             <h1 class="logo">( ( ( EspLora ) ) )</h1>
+              
+          </div>
+        <header>
+
+          <div class="menubar">
+
+
+            <strong><nav>
+            <ul>
+            <li><a href="/status">Status</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/tb">Testbench</a></li>
+            <li><a href="/connect">Connect</a></li>
+            
+            </ul>
+            </nav></strong>
+          </div>
+        </header>
+
+    <div class="conteudo">
+  
+
+
+<h2>ESP8266 pins setup:</h2>
+<p></p>
+
+<div class="container">
+  <form id='INPUT-OUPUT' action="/actionstconfig">
+Set GPIO function as INPUT or OUTPUT:<br><br>
+<table id="gpiotable">
+  <tr>
+    <th>Pin</th>
+    <th>Function</th>
+    <th>Toggle</th>
+  </tr>
+  <tr>
+    <td>GPIO1</td>
+    <td><div class="selectgpio"><select  name="GPIO1" form="INPUT-OUPUT">
+  <option value="input">INPUT</option>
+  <option value="output">OUTPUT</option>
+  <option value="None">None</option>
+  
+  </select> </div>  </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>GPIO2</td>
+    <td><div id="GPIO1"></div>     </td>
+    <td> </td>
+  </tr>
+
+</table>
+     <br>
+    <div class="row">
+      <input type="submit" value="Submit">
+    </div>
+
+  </form>
+
+</div>
+
+    </div>
+      </body>
+    </html>
+
+
+    <SCRIPT>
+    var xmlHttp=createXmlHttpObject();
+    var xmlHttp2=createXmlHttpObject();
+    var loaded=false;
+ 
+
+    function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+    xmlHttp=new XMLHttpRequest();
+    }else{
+    xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xmlHttp;
+    }
+
+    function start(){
+    process();
+    process_autocon();
+    change_checkbox();}
+
+    function response(){
+    xmlResponse=xmlHttp.responseXML;
+    xmldoc = xmlResponse.getElementsByTagName('ssid');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('SSID').innerHTML=message;
+    }
+
+    function response_autocon(){
+    xmlResponse=xmlHttp2.responseXML;
+    
+    if (loaded==false){//check flag loaded
+    xmldoc = xmlResponse.getElementsByTagName('gpio1');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('GPIO1').value=message;
+    
+    xmldoc = xmlResponse.getElementsByTagName('gpio2');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('GPIO2').value=message;
+
+ 
+    loaded=true;//flag to only do once
+    }
+    }
+
+    function process(){
+    xmlHttp.open('PUT','connectxml',true);
+    xmlHttp.onreadystatechange=response;
+    xmlHttp.send(null);
+    setTimeout('process()',200);
+    }
+    
+    function process_autocon(){
+    xmlHttp2.open('PUT','autoconxml',true);
+    xmlHttp2.onreadystatechange=response_autocon;
+    xmlHttp2.send(null);
+    setTimeout('process_autocon()',240);
+    }
+
+    //function to load an input invisible widget loaded by ajax, and set the content of an input widgets when load page document
+    function load_checkbox(id,compare_value,htmldiv,casetrue,casefalse){	
+
+	if(document.getElementById(id).value==compare_value){
+	document.getElementById(htmldiv).innerHTML = casetrue;}
+	else{
+	document.getElementById(htmldiv).innerHTML =casefalse;}
+	 }
+
+    function load_selectbox(id,compare_value){	
+
+	document.getElementById(id).value=compare_value
+	 }
+
+    </SCRIPT>
