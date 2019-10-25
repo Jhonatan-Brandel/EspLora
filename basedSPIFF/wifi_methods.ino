@@ -42,17 +42,17 @@ void str2ip(String strIP,int &iparray0,int &iparray1,int &iparray2,int &iparray3
 {
   int Parts[4] = {0,0,0,0};
   int Part = 0;
-for ( int i=0; i<strIP.length(); i++ )
-{
- char c = strIP[i];
-  if ( c == '.' )
-  {
-    Part++;
-    continue;
-  }
-  Parts[Part] *= 10;
-  Parts[Part] += c - '0';
-}
+  for ( int i=0; i<strIP.length(); i++ )
+    {
+     char c = strIP[i];
+      if ( c == '.' )
+        {
+          Part++;
+          continue;
+        }
+      Parts[Part] *= 10;
+      Parts[Part] += c - '0';
+    }
  iparray0=Parts[0];
  iparray1=Parts[1];
  iparray2=Parts[2];

@@ -1,0 +1,269 @@
+  <!DOCTYPE html>
+    <html>
+        <head> 
+        <title>EspLora </title>
+<style>
+.menubar ul {
+  font-family: Arial, Helvetica, sans-serif;
+  list-style-type: none;
+  
+
+  overflow: hidden;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  padding: 10px;
+
+}
+
+.menubar li {
+  float: left;
+}
+
+.menubar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+.menubar li a:hover {
+  background-color: #4CAF50;
+}
+
+.menubar p{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cabecalho h1{
+
+  font-family: Arial, Helvetica, sans-serif;
+  color:#4CAF50
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h2{
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+button{
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+}
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+.conteudo {
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "
+  display: table;
+  clear: both;
+}
+.row:after {
+  content: "
+  display: table;
+  clear: both;
+}
+
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 900px) {
+ .col-75  {
+    width: 60%;
+    margin-top: 0;
+  }
+
+@media screen and (max-width: 900px) {
+  .col-25 {
+    width: 40%;
+    margin-top: 0;
+  }
+}
+
+
+object:focus {
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+
+}
+
+</style>
+
+</head>
+      <body onload='start()'>
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+
+       <div class="cabecalho">
+             
+         
+             <h1 class="logo">( ( ( EspLora ) ) )</h1>
+              
+          </div>
+        <header>
+
+          <div class="menubar">
+
+
+            <strong><nav>
+            <ul>
+            <li><a href="/status">Status</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/tb">Testbench</a></li>
+            <li><a href="/connect">Connect</a></li>
+            
+            </ul>
+            </nav></strong>
+          </div>
+        </header>
+
+    <div class="conteudo">
+     <H2>Status page:</H2>
+	 
+        <br> 
+	
+	
+	  <div class="container">
+        
+<div class="col-25"> SSID: </div> <div class="col-75" id='SSID'>&nbsp;</div>
+<br>
+<div class="col-25"> IP: </div> <div class="col-75" id='IP'>&nbsp;</div>
+<br>
+<div class="col-25"> Gateway: </div> <div class="col-75" id='GATEWAY'>&nbsp;</div>
+<br>
+<div class="col-25"> Subnet Mask: </div> <div class="col-75" id='SUBNET'>&nbsp;</div>
+<br>
+<div class="col-25"> RSSI: </div> <div class="col-75" id='RSSI'>&nbsp;</div>
+<br>
+&nbsp;
+
+
+		
+		</div>
+
+          </p>
+	  </div>
+	  <br>
+
+
+      </body>
+
+    </html>
+
+    <SCRIPT>
+    var xmlHttp=createXmlHttpObject();
+
+    var loaded=false;
+ 
+
+    function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+    xmlHttp=new XMLHttpRequest();
+    }else{
+    xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xmlHttp;
+    }
+
+    function start(){
+
+    process();
+  
+
+    }
+
+    function response(){
+    xmlResponse=xmlHttp.responseXML;
+    xmldoc = xmlResponse.getElementsByTagName('ssid');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('SSID').innerHTML=message;
+
+    xmldoc = xmlResponse.getElementsByTagName('ip');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('IP').innerHTML=message;
+
+    xmldoc = xmlResponse.getElementsByTagName('gateway');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('GATEWAY').innerHTML=message;
+
+    xmldoc = xmlResponse.getElementsByTagName('subnet');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('SUBNET').innerHTML=message;
+
+    xmldoc = xmlResponse.getElementsByTagName('rssi');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('RSSI').innerHTML=message;
+
+    }
+
+
+    function process(){
+    xmlHttp.open('PUT','connectxml',true);
+    xmlHttp.onreadystatechange=response;
+    xmlHttp.send(null);
+    setTimeout('process()',200);
+    }
+    
+
+
+    </SCRIPT>
+    
+   

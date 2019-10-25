@@ -1,6 +1,6 @@
 
 void handleRoot() {
-  File file = SPIFFS.open("/index.html","r");
+  File file = SPIFFS.open("/status.html","r");
   server.streamFile(file, "text/html");
   file.close();
 }
@@ -15,6 +15,20 @@ void handle_options() {
   File file = SPIFFS.open("/options.html","r");
   server.streamFile(file, "text/html");
   file.close();
+}
+
+void handle_ap_config() {
+  File file = SPIFFS.open("/ap_config.html","r");
+  server.streamFile(file, "text/html");
+  file.close();
+}
+
+void action_ap_config() {
+ goback();
+ File config_file=SPIFFS.open("/apconf.txt","w");
+ config_file.print("#SSID,"+server.arg("ssid")+"\n");
+ config_file.print("#PWD,"+server.arg("password")+"\n");
+ config_file.close();
 }
 
 void handle_st_config() {
@@ -78,6 +92,10 @@ void XMLcontent()
   //Serial.println("xmlconteudo");
 
   String ip= WiFi.localIP().toString();
+  String gtwip= WiFi.gatewayIP().toString();
+  String subnet= WiFi.subnetMask().toString();
+  String rssi=String(WiFi.RSSI());
+  
   String XML ="<?xml version='1.0'?>";
   XML+="<connect>";
   XML+="<ssid>";
@@ -87,7 +105,20 @@ void XMLcontent()
   XML+="<ip>";
   XML+=ip;
   XML+="</ip>";
-  XML+="</connect>";
+
+  XML+="<gateway>";
+  XML+=gtwip;
+  XML+="</gateway>";
+
+  XML+="<subnet>";
+  XML+=subnet;
+  XML+="</subnet>";
+
+  XML+="<rssi>";
+  XML+=rssi;
+  XML+="</rssi>";
+  
+  XML+="</connect>";  
   server.send(200,"text/xml",XML);
   }
 
