@@ -1,0 +1,6 @@
+#ssid,ESP
+#password,12345678
+#mode,manual
+#gateway,192.168.0.1
+#subnet,255.255.255.0
+#ip,192.168.0.100
