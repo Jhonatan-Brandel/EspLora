@@ -32,6 +32,9 @@ void startListeners()
   server.on("/goback",goback);
   server.on("/conf.txt",handle_conf_file);
   server.on("/connectxml", XMLcontent);
+  server.on("/loraconfig",handle_lora_config); 
+  server.on("/actionloraconfig",action_lora_config);
+  server.on("/loraconfxml", loraconfXML);
   server.begin();
   Serial.println("HTTP server started");
 

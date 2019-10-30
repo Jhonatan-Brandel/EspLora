@@ -1,0 +1,6 @@
+#SSID,q6
+#PWD,12345678
+#MODE,
+#GTW,
+#SUBNET,
+#IP,

@@ -141,4 +141,89 @@ void autoconXMLcontent()
   }
 
 
+void handle_lora_config() {
+  File file = SPIFFS.open("/lora_config.html","r");
+  server.streamFile(file, "text/html");
+  file.close();
+}
 
+void action_lora_config() {
+
+ goback();
+ File config_file=SPIFFS.open("/loraconf.txt","w");
+ config_file.print("#FREQ,"+server.arg("FREQ")+"\n");
+ config_file.print("#TXPOWER,"+server.arg("TXPOWER")+"\n");
+ config_file.print("#SF,"+server.arg("SF")+"\n");
+ config_file.print("#BW,"+server.arg("BW")+"\n");
+ config_file.print("#CR,"+server.arg("CR")+"\n");
+ config_file.print("#PREAMBLE,"+server.arg("PREAMBLE")+"\n");
+ config_file.print("#SYNC,"+server.arg("SYNC")+"\n");
+ config_file.print("#CRC,"+server.arg("CRC")+"\n");
+ config_file.print("#SS,"+server.arg("SS")+"\n");
+ config_file.print("#RESET,"+server.arg("RESET")+"\n");
+ config_file.print("#DIO0,"+server.arg("DIO0")+"\n");
+ config_file.print("#SPI,"+server.arg("SPI")+"\n");
+ config_file.close();
+}
+
+void loraconfXML()
+ {
+  File file = SPIFFS.open("/loraconf.txt","r");
+  String txt=String(file2str(file));
+  file.close();
+  
+  String XML ="<?xml version='1.0'?>";
+  XML+="<loraconf>";
+  XML+="<freq>";
+  XML+=get_pseudo_dict_data(txt,"#FREQ");
+  XML+="</freq>";
+
+  XML+="<txpower>";
+  XML+=get_pseudo_dict_data(txt,"#TXPOWER");
+  XML+="</txpower>";
+
+  XML+="<sf>";
+  XML+=get_pseudo_dict_data(txt,"#SF");
+  XML+="</sf>";
+
+  XML+="<bw>";
+  XML+=get_pseudo_dict_data(txt,"#BW");
+  XML+="</bw>";
+
+  XML+="<cr>";
+  XML+=get_pseudo_dict_data(txt,"#CR");
+  XML+="</cr>";
+
+  XML+="<preamble>";
+  XML+=get_pseudo_dict_data(txt,"#PREAMBLE");
+  XML+="</preamble>";
+  
+  XML+="<sync>";
+  XML+=get_pseudo_dict_data(txt,"#SYNC");
+  XML+="</sync>";
+
+  
+  XML+="<crc>";
+  XML+=get_pseudo_dict_data(txt,"#CRC");
+  XML+="</crc>";
+
+  XML+="<ss>";
+  XML+=get_pseudo_dict_data(txt,"#SS");
+  XML+="</ss>";
+ 
+  XML+="<reset>";
+  XML+=get_pseudo_dict_data(txt,"#RESET");
+  XML+="</reset>";
+
+  XML+="<dio0>";
+  XML+=get_pseudo_dict_data(txt,"#DIO0");
+  XML+="</dio0>";
+
+  XML+="<spi>";
+  XML+=get_pseudo_dict_data(txt,"#SPI");
+  XML+="</spi>";
+  
+  XML+="</loraconf>";
+  
+  server.send(200,"text/xml",XML);
+  }

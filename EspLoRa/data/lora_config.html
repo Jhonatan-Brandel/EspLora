@@ -1,0 +1,503 @@
+  <!DOCTYPE html>
+    <html>
+        <head> 
+        <title>EspLora </title>
+<style>
+.menubar ul {
+  font-family: Arial, Helvetica, sans-serif;
+  list-style-type: none;
+  
+
+  overflow: hidden;
+  background-color: black ;
+  border-radius: 5px;
+  padding: 0px;
+
+}
+
+.menubar li {
+  float: left;
+}
+
+.menubar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.menubar li a:hover {
+  
+  background-color: #03c6fc ;
+  color:black;
+}
+
+.menubar p{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cabecalho h1{
+
+  font-family: Arial, Helvetica, sans-serif;
+  color:#03c6fc 
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+h2{
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+button{
+  background-color: #111 ;
+  color: white;
+
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #03c6fc ;
+  color: black;
+}
+input[type=submit] {
+  background-color: #111 ;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+  font-weight: bold;
+}
+
+input[type=submit]:hover {
+  background-color: #03c6fc ;
+  color: black;
+}
+.conteudo {
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.container {
+  border-radius: 5px;
+  background-color: #d2d2d2;
+  padding: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 900px) {
+  .col-25, .col-75, button, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+
+object:focus {
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+
+}
+
+.selectbox {
+width:120px;
+margin-top: -15px;
+}
+
+.formcol1 {
+  float: left;
+  width: 12%;
+  margin-top: 6px;
+}
+
+.formcol2 {
+  float: left;
+  width:10%;
+  margin-top: 6px;
+}
+
+@media screen and (max-width: 900px) {
+  .formcol1, .formcol2 {
+    width: 50%;
+    margin-top: 0;
+  }
+}
+
+div.relative {
+  position: relative;
+  left: 0%;
+  
+}
+</style>
+
+</head>
+      <body onload="process()" style="background-color:#eee;">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+       <div class="cabecalho">
+             
+         
+   <h1 class="logo"><font color= #03c6fc >( ( (</font> <b><b> <font color= #000000 >EspLoRa</font></b> </b> <font color=#03c6fc>) ) )</font></h1>
+              
+          </div>
+        <header>
+
+          <div class="menubar">
+
+
+            <strong><nav>
+            <ul>
+            <li><a href="/status">Status</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/tb">Testbench</a></li>
+            <li><a href="/connect">Connect</a></li>
+            
+            </ul>
+            </nav></strong>
+          </div>
+        </header>
+
+    <div class="conteudo">
+	  LoRa Settings:
+ <br><br>
+   
+<!-- Bloco a seguir é formulário para verificar modo de conexão automática do sistema.//-->
+
+	  <div class="container">
+Radio parameters:<br><br>
+		<form  action="/actionloraconfig"> 
+
+			<div class="row">
+				<br>
+                                <div class="formcol1">Frequency (MHz):</div>
+				<div class="formcol2">
+					<div class="selectbox"> <select id="freq" name="FREQ"  >
+						  <option value="0">433</option>
+						  <option value="1">868</option>
+						  <option value="2">915</option>
+						  					  
+						  </select>
+					</div> 
+                                                                    
+				</div>
+
+			</div>
+<br><br><br>
+			<div class="row">
+							<br>
+						        <div class="formcol1">TX power (dBm):</div>
+							<div class="formcol2">
+							     <input type="number" id="txpower" name="TXPOWER" min="0" max="20" >
+						                                            
+							</div>
+
+						</div>
+
+<br><br><br>
+
+			<div class="row">
+				<br>
+                                <div class="formcol1">Spread Factor:</div>
+				<div class="formcol2">
+					<div class="selectbox"><select id="sf" name="SF" >
+						  <option value="0">6</option>
+						  <option value="1">7</option>
+						  <option value="2">8</option>
+						  <option value="3">9</option>
+						  <option value="4">10</option>
+						  <option value="5">11</option>
+						  <option value="6">12</option>					  
+						  </select>
+					</div> 
+                                                                    
+				</div>
+
+			</div>
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">Bandwidth (kHz):</div>
+				<div class="formcol2">
+					<div class="selectbox"><select  id="bw" name="BW" >
+						  <option value="0">7.8</option>
+						  <option value="1">10.4</option>
+						  <option value="2">15.6</option>
+						  <option value="3">20.8</option>
+						  <option value="4">31.25</option>
+						  <option value="5">41.7</option>
+						  <option value="6">62.5</option>
+						  <option value="7">125</option>
+						  <option value="8">250</option>					  
+						  </select>
+					</div> 
+                                                                    
+				</div>
+
+			</div>
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">Coding Rate:</div>
+				<div class="formcol2">
+					<div class="selectbox"><select id="cr"  name="CR" >
+						  <option value="0">4/5</option>
+						  <option value="1">4/6</option>
+						  <option value="2">4/7</option>
+						  <option value="3">4/8</option>
+					  
+						  </select>
+					</div> 
+                                                                    
+				</div>
+
+			</div>
+
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">Preamble length:</div>
+				<div class="formcol2">
+	                             <input type="number" id="preamble" name="PREAMBLE" min="6" max="65535">
+                                                                    
+				</div>
+
+			</div>
+
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">Sync word:</div>
+				<div class="formcol2">
+	                             <input type="number" id="sync" name="SYNC" min="0" max="255">
+                                                                    
+				</div>
+
+			</div>
+
+
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">CRC:</div>
+				<div class="formcol2">
+					<div class="selectbox"><select  id="crc" name="CRC" >
+						  <option value="0">Enable</option>
+						  <option value="1">Disable</option>
+
+					  
+						  </select>
+					</div> 
+                                                                    
+				</div>
+
+			</div>
+				<br>
+				<br>
+ </div>
+<br><br>
+	  <div class="container">
+Pins setup:<br><br>
+
+			<div class="row">
+				<br>
+                                <div class="formcol1">SS pin:</div>
+				<div class="formcol2">
+					<input type="number" id="ss" name="SS" min="0" max="16">     
+				</div>
+
+			</div>
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">Reset pin:</div>
+				<div class="formcol2">
+					<input type="number" id="reset" name="RESET" min="0" max="16">     
+				</div>
+
+			</div>
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">DIO0 pin:</div>
+				<div class="formcol2">
+					<input type="number" id="dio0" name="DIO0" min="0" max="16">     
+				</div>
+
+			</div>
+
+<br><br><br>
+			<div class="row">
+				<br>
+                                <div class="formcol1">SPI frequency:</div>
+				<div class="formcol2">
+					<input type="number" id="spi" name="SPI" min="57600" max="10000000">     
+				</div>
+
+			</div>
+
+<br><br>
+				<div class="relative">
+					<input type="submit" value="Submit"> </p>
+				</div>
+			
+		
+
+                </form> 
+          </p>
+	  </div>
+
+
+    </div>
+
+
+
+      </body>
+
+    </html>
+
+
+    <SCRIPT>
+
+    var xmlHttp=createXmlHttpObject();
+    var loaded=false;
+    // document.getElementById('freq').selectedIndex="2";
+    
+    function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+    xmlHttp=new XMLHttpRequest();
+    }else{
+    xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xmlHttp;
+    }
+
+    function start(){
+    process();
+      }
+    
+
+    function response(){
+    xmlResponse=xmlHttp.responseXML;
+
+    if (loaded==false){
+     
+     xmldoc = xmlResponse.getElementsByTagName('freq');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("freq").selectedIndex=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('txpower');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("txpower").value=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('sf');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("sf").selectedIndex=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('preamble');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("preamble").value=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('cr');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("cr").selectedIndex=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('sync');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("sync").value=message;
+
+
+     xmldoc = xmlResponse.getElementsByTagName('crc');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("crc").selectedIndex=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('bw');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("bw").selectedIndex=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('ss');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("ss").value=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('reset');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("reset").value=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('dio0');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("dio0").value=message;
+
+     xmldoc = xmlResponse.getElementsByTagName('spi');
+     message = xmldoc[0].firstChild.nodeValue;
+     document.getElementById("spi").value=message;
+
+     loaded=true;}
+    }
+    
+
+
+    
+    function process(){
+    xmlHttp.open('PUT','loraconfxml',true);
+    xmlHttp.onreadystatechange=response;
+    xmlHttp.send(null);
+    setTimeout('process()',200);
+    }
+
+    //function to load an input invisible widget loaded by ajax, and set the content of an input widgets when load page document
+    function load_checkbox(id,compare_value,htmldiv,casetrue,casefalse){	
+
+	if(document.getElementById(id).value==compare_value){
+	document.getElementById(htmldiv).innerHTML = casetrue;}
+	else{
+	document.getElementById(htmldiv).innerHTML =casefalse;}
+	 }
+
+    </SCRIPT>
+
+

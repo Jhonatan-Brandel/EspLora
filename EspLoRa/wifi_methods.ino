@@ -9,7 +9,7 @@ boolean connect2ap(String ssid,String password)
  char char_pwd[pwd_len];
  password.toCharArray(char_pwd, pwd_len);
  
- WiFi.begin(char_ssid,char_pwd);
+ WiFi.begin(char_ssid,char_pwd);//---Essa funçao realmente acessa o AP desejado
 
  //WiFi.config(staticIP, gateway, subnet);
  int attempts=0;

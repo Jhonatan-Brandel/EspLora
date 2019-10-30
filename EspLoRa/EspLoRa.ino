@@ -3,7 +3,8 @@
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
 #include <FS.h>
-#include <ESP8266mDNS.h>    
+#include <ESP8266mDNS.h>   
+//#include<LoRa.h> 
 //Set ssid and password for SoftAP
 const char *ssid = "ESP";
 const char *password = "12345678";
