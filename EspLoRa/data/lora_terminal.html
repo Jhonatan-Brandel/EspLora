@@ -1,0 +1,292 @@
+  <!DOCTYPE html>
+    <html>
+        <head> 
+        <title>EspLora </title>
+<style>
+.menubar ul {
+  font-family: Arial, Helvetica, sans-serif;
+  list-style-type: none;
+  
+
+  overflow: hidden;
+  background-color: black ;
+  border-radius: 5px;
+  padding: 0px;
+
+}
+
+.menubar li {
+  float: left;
+}
+
+.menubar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+.menubar li a:hover {
+  background-color: #03c6fc ;
+  color:black;
+}
+
+.menubar p{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cabecalho h1{
+
+  font-family: Arial, Helvetica, sans-serif;
+  color:#03c6fc 
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h2{
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #000000 ;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  width:18%;
+  margin-top:6px;
+  margin-left:6px;
+  font-weight: bold;
+}
+
+input[type=submit]:hover {
+  background-color: #03c6fc;
+}
+
+button{
+  background-color: #000000 ;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  width:18%;
+  margin-top:6px;
+  margin-left:6px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #03c6fc;
+}
+.container {
+  border-radius: 5px;
+  background-color: #d2d2d2;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+   
+}
+
+.col-25 {
+  float: left;
+  width: 40%;
+  margin-top: 6px;
+}
+
+.terminal {
+  float: left;
+  width: 100%;
+  margin-top: 6px;
+  
+}
+.send2terminal{
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+}
+.col-75 {
+  float: left;
+  width: 60%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 900px) {
+    input[type=submit] {
+   
+  }
+}
+
+object:focus {
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+
+}
+
+</style>
+
+</head>
+      <body onload='start()'  style="background-color:#eee;">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+
+       <div class="cabecalho">
+             
+         
+             <h1 class="logo"> <font color= #03c6fc >( ( (</font> <b><b> <font color= #000000 >EspLoRa</font></b> </b> <font color=#03c6fc>) ) )</font></h1>
+              
+          </div>
+        <header>
+
+          <div class="menubar">
+
+
+            <strong><nav>
+            <ul>
+            <li><a href="/status">Status</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/tb">Testbench</a></li>
+            <li><a href="/connect">Connect</a></li>
+            <li><a href="/lora">LoRa</a></li>
+            </ul>
+            </nav></strong>
+          </div>
+        </header>
+
+    <div class="conteudo">
+     <H2>Status page:</H2>
+	 
+        
+	
+	
+	  <div class="container">
+        
+		<div class="terminal">  <textarea id="terminalrx" rows="20" cols="100" > </textarea>
+		</div>
+		<br>
+ <form action="/loraterminal" id="formid">
+		<div class="send2terminal"> 
+  <input  id="sendmsg" type="text" name="send"> 
+</div>
+  
+</form> 
+ <button onclick="sendmsg()">Send</button>
+
+	
+ 
+	</div>
+
+     </div>
+	  
+
+
+      </body>
+
+    </html>
+
+    <SCRIPT>
+    var xmlHttp=createXmlHttpObject();
+
+    var loaded=false;
+    var old_rx_msg_id="";
+
+    function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+    xmlHttp=new XMLHttpRequest();
+    }else{
+    xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xmlHttp;
+    }
+
+    function start(){
+
+    process();
+  
+
+    }
+
+    function response(){
+    xmlResponse=xmlHttp.responseXML;
+
+    xmldoc = xmlResponse.getElementsByTagName('id');
+    message = xmldoc[0].firstChild.nodeValue;
+    if((message!==old_rx_msg_id))
+    {
+            old_rx_msg_id=message;
+
+	    xmldoc = xmlResponse.getElementsByTagName('lastreceived');
+	    message = xmldoc[0].firstChild.nodeValue;
+	    document.getElementById('terminalrx').value=document.getElementById('terminalrx').value.concat('\n');
+	    document.getElementById('terminalrx').value=document.getElementById('terminalrx').value.concat(message);
+	document.getElementById("terminalrx").scrollTop = document.getElementById("terminalrx").scrollHeight //atualiza a barra da caixa de texto
+    }
+
+
+
+    xmldoc = xmlResponse.getElementsByTagName('gateway');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('GATEWAY').innerHTML=message;
+
+    xmldoc = xmlResponse.getElementsByTagName('subnet');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('SUBNET').innerHTML=message;
+
+    xmldoc = xmlResponse.getElementsByTagName('rssi');
+    message = xmldoc[0].firstChild.nodeValue;
+    document.getElementById('RSSI').innerHTML=message;
+
+    }
+
+
+    function process(){
+    xmlHttp.open('PUT','lorapktxml',true);
+    xmlHttp.onreadystatechange=response;
+    xmlHttp.send(null);
+    setTimeout('process()',200);
+    }
+    
+function sendmsg(){
+var form = document.getElementById("formid");
+var data = new FormData(form);
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("POST", "/lorasend");
+xmlhttp.send(data);
+
+}
+
+
+
+    </SCRIPT>
+    
+   

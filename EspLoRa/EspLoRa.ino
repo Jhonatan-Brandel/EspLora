@@ -3,21 +3,33 @@
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
 #include <FS.h>
-#include <ESP8266mDNS.h>   
+#include <ESP8266mDNS.h> 
+#include <SPI.h>
+#include <LoRa.h>
+
+
 //#include<LoRa.h> 
 //Set ssid and password for SoftAP
-const char *ssid = "ESP";
+const char *ssid = "ESP8266";
 const char *password = "12345678";
-
+long tic,toc,counter=0;
 ESP8266WebServer server(80);
 
 void setup() {
+ SPIFFS.begin();
  Serial.begin(115200);
+ setLora();
  startListeners();
+tic=millis();
+toc=tic;
+ 
 }
 
 void loop() {
  server.handleClient();
+txlora();
+ 
+ 
 }
 
 //http://192.168.4.1 to access the softap

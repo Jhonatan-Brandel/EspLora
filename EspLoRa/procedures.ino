@@ -1,6 +1,5 @@
 void startListeners()
-{ SPIFFS.begin();
-  delay(10);
+{ 
   File file = SPIFFS.open("/apconf.txt","r");
   String txt=String(file2str(file));
   file.close();
@@ -35,6 +34,9 @@ void startListeners()
   server.on("/loraconfig",handle_lora_config); 
   server.on("/actionloraconfig",action_lora_config);
   server.on("/loraconfxml", loraconfXML);
+  server.on("/loraterminal", handleLoRaTerm); 
+  server.on("/lorapktxml", lorapktXML);
+  server.on("/lorasend", handleLoRasendform);
   server.begin();
   Serial.println("HTTP server started");
 

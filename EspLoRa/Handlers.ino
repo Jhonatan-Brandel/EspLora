@@ -227,3 +227,34 @@ void loraconfXML()
   
   server.send(200,"text/xml",XML);
   }
+
+  void handleLoRaTerm() {
+  File file = SPIFFS.open("/lora_terminal.html","r");
+  server.streamFile(file, "text/html");
+  file.close();
+  Serial.println(server.arg("send"));
+}
+
+void lorapktXML()
+{    
+  String XML ="<?xml version='1.0'?>";
+
+  XML+="<loraxml>";
+
+  XML+="<id>";
+  XML+=counter;
+  XML+="</id>";
+  
+  XML+="<lastreceived>";
+  XML+=counter;
+  XML+="</lastreceived>";
+  
+  XML+="</loraxml>";  
+  server.send(200,"text/xml",XML);
+  
+}
+
+void handleLoRasendform() {
+  Serial.println(server.arg("send"));
+
+}

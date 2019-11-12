@@ -215,15 +215,12 @@ Radio parameters:<br><br>
 
 			<div class="row">
 				<br>
-                                <div class="formcol1">Frequency (MHz):</div>
+                                <div class="formcol1">Frequency (Hz):</div>
 				<div class="formcol2">
-					<div class="selectbox"> <select id="freq" name="FREQ"  >
-						  <option value="0">433</option>
-						  <option value="1">868</option>
-						  <option value="2">915</option>
-						  					  
-						  </select>
-					</div> 
+					<div class="formcol2">
+							     <input type="number" id="freq" name="FREQ" min="0" max="1000000000" >
+						                                            
+							</div>
                                                                     
 				</div>
 
@@ -429,7 +426,8 @@ Pins setup:<br><br>
      
      xmldoc = xmlResponse.getElementsByTagName('freq');
      message = xmldoc[0].firstChild.nodeValue;
-     document.getElementById("freq").selectedIndex=message;
+     //document.getElementById("freq").selectedIndex=message;
+     document.getElementById("freq").value=message;     
 
      xmldoc = xmlResponse.getElementsByTagName('txpower');
      message = xmldoc[0].firstChild.nodeValue;
@@ -486,7 +484,8 @@ Pins setup:<br><br>
     xmlHttp.open('PUT','loraconfxml',true);
     xmlHttp.onreadystatechange=response;
     xmlHttp.send(null);
-    setTimeout('process()',200);
+    if (loaded==false){// XML required once
+    setTimeout('process()',200);}
     }
 
     //function to load an input invisible widget loaded by ajax, and set the content of an input widgets when load page document
