@@ -73,7 +73,7 @@ input[type=submit] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  float: right;
+  float: center;
   width:18%;
   margin-top:6px;
   margin-left:6px;
@@ -100,6 +100,7 @@ button{
 
 button:hover {
   background-color: #03c6fc;
+  color:black;
 }
 .container {
   border-radius: 5px;
@@ -107,12 +108,12 @@ button:hover {
   padding: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-   
+  margin-bottom:20px;
 }
 
 .col-25 {
   float: left;
-  width: 40%;
+  width: 0%;
   margin-top: 6px;
 }
 
@@ -133,6 +134,13 @@ button:hover {
   margin-top: 6px;
 }
 
+.scroll {
+  float: left;
+  width: 20%;
+  margin-left: 80%;
+}
+
+
 /* Clear floats after the columns */
 .row:after {
   content: "";
@@ -142,9 +150,18 @@ button:hover {
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 900px) {
-    input[type=submit] {
-   
+    button {
+    width: 28%;
+
   }
+  .send2terminal{
+   width: 68%;
+  }
+.scroll {
+  float: left;
+  width: 50%;
+  margin-left: 50%;
+}
 }
 
 object:focus {
@@ -161,16 +178,13 @@ object:focus {
        <meta name="viewport" content="width=device-width, initial-scale=1">
 
        <div class="cabecalho">
-             
-         
+                      
              <h1 class="logo"> <font color= #03c6fc >( ( (</font> <b><b> <font color= #000000 >EspLoRa</font></b> </b> <font color=#03c6fc>) ) )</font></h1>
               
           </div>
         <header>
 
           <div class="menubar">
-
-
             <strong><nav>
             <ul>
             <li><a href="/status">Status</a></li>
@@ -184,17 +198,18 @@ object:focus {
         </header>
 
     <div class="conteudo">
-     <H2>Status page:</H2>
+     <H2>LoRa Terminal:</H2> 
 	 
         
 	
 	
 	  <div class="container">
-        
+          <div class="col-25">Received:</div>
+         <div  class="scroll"> <div>  <input type="checkbox" id="autoscroll" name="scroll lock" value="check" checked > Auto scroll.<br> </div></div>
 		<div class="terminal">  <textarea id="terminalrx" rows="20" cols="100" > </textarea>
 		</div>
-		<br>
- <form action="/loraterminal" id="formid">
+		<br> &nbsp;<br>
+ <form action="javascript:sendmsg();" id="formid">
 		<div class="send2terminal"> 
   <input  id="sendmsg" type="text" name="send"> 
 </div>
@@ -202,8 +217,8 @@ object:focus {
 </form> 
  <button onclick="sendmsg()">Send</button>
 
-	
- 
+	&nbsp;<br>&nbsp;<br>&nbsp;<br>
+           
 	</div>
 
      </div>
@@ -219,6 +234,7 @@ object:focus {
 
     var loaded=false;
     var old_rx_msg_id="";
+    var autoscrool=""
 
     function createXmlHttpObject(){
     if(window.XMLHttpRequest){
@@ -249,8 +265,10 @@ object:focus {
 	    message = xmldoc[0].firstChild.nodeValue;
 	    document.getElementById('terminalrx').value=document.getElementById('terminalrx').value.concat('\n');
 	    document.getElementById('terminalrx').value=document.getElementById('terminalrx').value.concat(message);
+        if( document.getElementById('autoscroll').checked){
 	document.getElementById("terminalrx").scrollTop = document.getElementById("terminalrx").scrollHeight //atualiza a barra da caixa de texto
-    }
+        }
+   }
 
 
 
@@ -282,7 +300,7 @@ var data = new FormData(form);
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.open("POST", "/lorasend");
 xmlhttp.send(data);
-
+document.getElementById('sendmsg').value=""
 }
 
 

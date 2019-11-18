@@ -10,7 +10,7 @@ void txlora()
   LoRa.beginPacket();
   LoRa.print(counter);
   LoRa.endPacket();
-
+  
   counter++;
  }
   

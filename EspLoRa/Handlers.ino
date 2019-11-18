@@ -246,7 +246,7 @@ void lorapktXML()
   XML+="</id>";
   
   XML+="<lastreceived>";
-  XML+=counter;
+  XML+=pkt_message;
   XML+="</lastreceived>";
   
   XML+="</loraxml>";  
@@ -256,5 +256,8 @@ void lorapktXML()
 
 void handleLoRasendform() {
   Serial.println(server.arg("send"));
-
+  //send packet
+  LoRa.beginPacket();
+  LoRa.print(server.arg("send"));
+  LoRa.endPacket();
 }
